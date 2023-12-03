@@ -6,6 +6,7 @@ import datetime
 import getpass
 import sqliteauthenticate as authenticate
 import sqlitedatabase as database
+import fetchwebtitle
 
 # main function
 def main() -> int:
@@ -46,11 +47,12 @@ def main() -> int:
                 # Ask for details
                 subject = input("Subject: ")
                 text = input("Text: ")
+                url = input("Web page: ")
 
                 # Initially result is set to -1
                 result = -1
                 # Create a new note
-                result = database.createnote(userid, subject, datetime.datetime.now(), text)
+                result = database.createnote(userid, subject, datetime.datetime.now(), text, url)
                 # Print the result
                 print("New note created: " + str(result))
 
@@ -80,6 +82,8 @@ def main() -> int:
                     print("Subject: " + note["subject"])
                     print("Date: " + str(note["date"]))
                     print("Text: " + note["text"])
+                    print("Web page: " + note["url"])
+                    print("Web title: " + fetchwebtitle.fetchtitle(note["url"]))
                     print("--- --- ---")
                     # One new menu loop that is used to delete menu item
                     choice = input("Type \"Delete\" to delete this note or press enter to go back: ")
