@@ -35,7 +35,11 @@ def main() -> int:
             print("2. Retrieve notes")
             print("3. Logout")
 
-            choice = input("Choose and press enter: ")
+            try:
+                choice = int(input("Choose and press enter: "))
+            except ValueError:
+                # if input is not a number
+                choice = -1
 
             # Create a new note
             if int(choice) == 1:
@@ -62,7 +66,12 @@ def main() -> int:
                 for n in usernotes:
                     print(str(number) + ". " + database.notedetails(n)["subject"])
                     number += 1
-                
+                try:
+                    selectednote =  int(input("Enter a number of a note of any other number to exit: "))
+                except ValueError:
+                    # if input is not a number
+                    selectednote = -1
+
                 # Show details of one note and show note specific menu
                 selectednote =  input("Enter a number of a note of any other number to exit: ")
                 if ((int(selectednote) < len(usernotes)) and (int(selectednote) >= 0)):
