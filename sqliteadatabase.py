@@ -11,4 +11,17 @@ def connect() -> sqlite3.Connection:
         pass
         # Table likely exists - ignore and continue
     return con
-
+# create a new note for a specific user
+# arguments : userid, subject, date, text
+# returns : noteid or -1 if note creation fails
+def createnote(userid, subject, date, text, url="") -> int:
+    con = connect()
+    try:
+        cur = con.cursor()
+        cur.execute("INSERT INTO notes (userid, subject, date, text, url) VALUES (?, ?, ?, ?, ?)", [userid, subject, date, text, url])
+        noteid = cur.lastrowid
+        con.commit()
+    except:
+        noteid = int(-1)
+    con.close()
+    return(noteid)
