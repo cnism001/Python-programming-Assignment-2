@@ -42,7 +42,7 @@ def main() -> int:
                 choice = -1
 
             # Create a new note
-            if int(choice) == 1:
+            if choice == 1:
                 # Ask for details
                 subject = input("Subject: ")
                 text = input("Text: ")
@@ -55,7 +55,7 @@ def main() -> int:
                 print("New note created: " + str(result))
 
             # List notes of current user and open a new menu to access them
-            elif int(choice) == 2:
+            elif choice == 2:
                 # Request list of notes
                 usernotes = database.listusernotes(userid)
 
@@ -66,16 +66,16 @@ def main() -> int:
                 for n in usernotes:
                     print(str(number) + ". " + database.notedetails(n)["subject"])
                     number += 1
+                
+                # Show details of one note and show note specific menu
                 try:
                     selectednote =  int(input("Enter a number of a note of any other number to exit: "))
                 except ValueError:
                     # if input is not a number
                     selectednote = -1
 
-                # Show details of one note and show note specific menu
-                selectednote =  input("Enter a number of a note of any other number to exit: ")
-                if ((int(selectednote) < len(usernotes)) and (int(selectednote) >= 0)):
-                    note = database.notedetails(usernotes[int(selectednote)])
+                if ((selectednote < len(usernotes)) and (selectednote >= 0)):
+                    note = database.notedetails(usernotes[selectednote])
                     print("--- --- ---")
                     print("Subject: " + note["subject"])
                     print("Date: " + str(note["date"]))
@@ -99,9 +99,6 @@ def main() -> int:
             # Rest of the answers will log user out
             else:
                 onmainmenu = False
-            
-    # Exit successfully
-    return(0)
 
 # main function entry point
 if __name__ == '__main__':
