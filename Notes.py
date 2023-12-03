@@ -4,8 +4,8 @@
 import sys
 import datetime
 import getpass
-import authenticate
-import memorydatabase as database
+import sqliteauthenticate as authenticate
+import sqlitedatabase as database
 
 # main function
 def main() -> int:
