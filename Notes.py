@@ -7,6 +7,7 @@ import getpass
 import sqliteauthenticate as authenticate
 import sqlitedatabase as database
 import fetchwebtitle
+import jsonnotes
 
 # main function
 def main() -> int:
@@ -34,7 +35,8 @@ def main() -> int:
             print("Main menu:")
             print("1. Create a note")
             print("2. Retrieve notes")
-            print("3. Logout")
+            print("3. Load a note from a json file")
+            print("4. Logout")
 
             try:
                 choice = int(input("Choose and press enter: "))
@@ -99,6 +101,15 @@ def main() -> int:
                 else:
                     # Reset choice variable as it is used in other menus
                     choice = 0
+
+            elif choice == 3:
+                # This try will cover also fails inside jsonnotes module
+                try:
+                    filename = input("Filename: ")
+                    note = jsonnotes.readjsonfile(filename)
+                    database.createnote(userid, note["subject"], note["date"], note["text"], note["www"])
+                except Exception as error:
+                    print(error)
 
             # Rest of the answers will log user out
             else:
