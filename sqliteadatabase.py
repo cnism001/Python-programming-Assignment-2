@@ -11,6 +11,7 @@ def connect() -> sqlite3.Connection:
         pass
         # Table likely exists - ignore and continue
     return con
+
 # create a new note for a specific user
 # arguments : userid, subject, date, text
 # returns : noteid or -1 if note creation fails
@@ -25,6 +26,7 @@ def createnote(userid, subject, date, text, url="") -> int:
         noteid = int(-1)
     con.close()
     return(noteid)
+
 # list database ids of notes of a user
 # arguments : userid
 # returns : list of user's notes
@@ -37,3 +39,24 @@ def listusernotes(userid) -> []:
     usernotes = cur.fetchall()
     con.close()
     return usernotes
+
+# list note details
+# arguments : noteid
+# returns : a note item as a dictionary
+def notedetails(noteid) -> {}:
+    con = connect()
+    note = {}
+    cur = con.cursor()
+    cur.execute("SELECT userid, subject, date, text, url FROM notes WHERE id = ?", [noteid[0]])
+    # Take only first. There should not be more than one because id is the primary key
+    res = cur.fetchone()
+    con.close()
+    # Database result res is tuple. It needs to be converted to dictionary
+    note = {
+        "userid": res[0],
+        "subject": res[1],
+        "date": res[2],
+        "text": res[3],
+        "url": res[4]
+    }
+    return note
