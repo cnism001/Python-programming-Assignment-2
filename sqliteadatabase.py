@@ -25,3 +25,15 @@ def createnote(userid, subject, date, text, url="") -> int:
         noteid = int(-1)
     con.close()
     return(noteid)
+# list database ids of notes of a user
+# arguments : userid
+# returns : list of user's notes
+def listusernotes(userid) -> []:
+    con = connect()
+    # Create a new empty list that will contain ids and subject of a user notes
+    usernotes = []
+    cur = con.cursor()
+    cur.execute("SELECT id, subject FROM notes WHERE userid = ?", [userid])
+    usernotes = cur.fetchall()
+    con.close()
+    return usernotes
