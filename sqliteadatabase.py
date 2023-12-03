@@ -60,3 +60,20 @@ def notedetails(noteid) -> {}:
         "url": res[4]
     }
     return note
+# delete a note
+# arguments : noteid
+# returns : True is success or False in case of failure
+def deletenote(noteid) -> bool:
+    print(noteid)
+    result = False
+    con = connect()
+    try:
+        cur = con.cursor()
+        cur.execute("DELETE FROM notes WHERE id = ?", [noteid[0]])
+        con.commit()
+        result = True
+    except:
+        result = False
+    con.close()
+    # Return True for now
+    return result
